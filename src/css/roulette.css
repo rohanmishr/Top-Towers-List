@@ -1,0 +1,125 @@
+@keyframes move-bg {
+    to {
+      background-position: var(--bg-size) 0;
+    }
+}
+
+#roulette {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 95vh;
+}
+
+#roulette #roulette-header {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+}
+
+#roulette #roulette-start {
+    width: 10%;
+    height: 4vh;
+    border-radius: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    background-color: rgba(255, 255, 255, 0.05);
+    color: rgb(155, 155, 155);
+    font-family: 'Inter', sans-serif;
+    font-size: 0.8vw;
+    font-weight: bold;
+    transition: 0.5s ease;
+}
+
+#roulette #roulette-start.failed {
+    border: 1px solid rgb(114, 48, 48);
+    background-color: rgba(73, 36, 36, 0.3);
+    color: rgb(151, 48, 48);
+}
+
+#roulette #roulette-start:hover {
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    background-color: rgba(255, 255, 255, 0.1);
+    color: white;
+}
+
+#roulette #roulette-options {
+    width: 0;
+    margin-right: 25vw;
+}
+
+#roulette #roulette-options div, #roulette-controls div {
+    width: 10vw;
+    display: flex;
+    flex-direction: column;
+    justify-content: left;
+}
+
+#roulette #roulette-controls{
+    width: 0;
+    margin-left: 25vw;
+}
+
+#roulette #roulette-towers {
+    display: flex;
+    flex-direction: column;
+}
+
+#roulette .roulette-tower {
+    margin-top: 2vh;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding-left: 0.5vw;
+    width: 58.5vw;
+    height: 13vh;
+    background-color: rgba(255, 255, 255, 0.03);
+    border-radius: 15px;
+}
+
+#roulette .roulette-tower iframe {
+    border-radius: 7.5px;
+    width: 20%;
+}
+
+#roulette .roulette-tower .roulette-tower-info {
+    display: flex;
+    flex-direction: row;
+    height: 100%;
+    width: 80%;
+}
+
+#roulette .roulette-tower .roulette-tower-info-left {
+    display: flex;
+    flex-direction: column;
+    justify-content: left;
+    align-items: first baseline;
+    height: 100%;
+    margin-left: 0.8vw;
+}
+
+#roulette .roulette-tower .roulette-tower-info-left h1 {
+    height: 0;
+}
+
+#roulette .roulette-tower .roulette-tower-info-left h3 {
+    color: rgb(131, 131, 131);
+    margin-top: 2vh;
+}
+
+#roulette .roulette-tower .roulette-tower-info-controls {
+    height: 100%;
+    width: 20%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-right: 0;
+    margin-left: auto;
+    justify-content: center;
+}
+
+#roulette .roulette-tower .roulette-tower-info-controls span {
+    display: flex;
+    flex-direction: row;
+}
