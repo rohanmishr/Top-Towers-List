@@ -26,6 +26,14 @@ class Roulette {
             roulettePool = roulettePool.concat(legacy);
         }
 
+        for (let i = 0; i < roulettePool.length; i++) {
+            if (roulettePool[i].name.charAt(0) == "S" || roulettePool[i].name.charAt(0) == "D") {
+                roulettePool.splice(i, 1); // remove all steeples, getting one past r6 makes it impossible
+            }
+        }
+
+        console.log(roulettePool);
+
         for (let i = 0; i < 10; i++) {
             // get 10 random towers
             let t = roulettePool[rand(0, roulettePool.length - 1)];
