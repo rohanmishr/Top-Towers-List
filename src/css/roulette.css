@@ -4,19 +4,31 @@
     }
 }
 
+@keyframes slide-up {
+    0% {
+        transform: translateY(1000px);
+        opacity: 0;
+    }
+
+    100% {
+        transform: translateY(0px);
+        opacity: 1;
+    }
+}
+
 #roulette {
     display: flex;
     flex-direction: column;
     align-items: center;
-    min-height: 95vh;
+    min-height: 195vh;
 }
 
 #roulette #roulette-header {
     display: flex;
     flex-direction: row;
     align-items: center;
-    justify-content: center;
-    width: 100%;
+    justify-content: space-between;
+    width: 58.5%;
 }
 
 #roulette #roulette-start {
@@ -45,8 +57,7 @@
 }
 
 #roulette #roulette-options {
-    width: 0;
-    margin-right: 25vw;
+    width: 5vw;
 }
 
 #roulette #roulette-options div, #roulette-controls div {
@@ -57,8 +68,24 @@
 }
 
 #roulette #roulette-controls{
-    width: 0;
-    margin-left: 25vw;
+    width: 5vw;
+}
+
+#roulette #roulette-controls #roulette-stop {
+    background-color: rgb(151, 48, 48);
+    color: white;
+    width: 5vw;
+    height: 4vh;
+    font-family: 'Inter', sans-serif;
+    font-size: 0.8vw;
+    font-weight: bold;
+    border-radius: 10px;
+    border: none;
+    transition: 0.5s ease;
+}
+
+#roulette #roulette-controls #roulette-stop:hover {
+    filter: brightness(1.25);
 }
 
 #roulette #roulette-towers {
@@ -76,6 +103,12 @@
     height: 13vh;
     background-color: rgba(255, 255, 255, 0.03);
     border-radius: 15px;
+}
+
+#roulette .roulette-tower.current {
+    transform: translateY(2000px);
+    animation: slide-up 1s ease-out;
+    animation-fill-mode: forwards;
 }
 
 #roulette .roulette-tower iframe {
@@ -122,4 +155,47 @@
 #roulette .roulette-tower .roulette-tower-info-controls span {
     display: flex;
     flex-direction: row;
+}
+
+#roulette .roulette-tower .roulette-tower-info-controls input {
+    height: 25%;
+    width: 8vw;
+    margin-bottom: 4vh;
+    background-color: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    border-radius: 7.5px;
+    padding-left: 0.5vw;
+    font-family: "Inter", sans-serif;
+    color: white;
+}
+
+#roulette .roulette-tower .roulette-tower-info-controls span #roulette-submit, #roulette-giveUp {
+    height: 3vh;
+    width: 3vw;
+    font-family: "Inter", sans-serif;
+    border-radius: 7.5px;
+    border: none;
+    margin-left: 0.9vw;
+    margin-right: 0.9vw;
+    color: white;
+    transition: 0.5s ease;
+}
+
+#roulette .roulette-tower .roulette-tower-info-controls span #roulette-submit:hover, #roulette-giveUp:hover {
+    filter: brightness(1.25);
+}
+
+#roulette .roulette-tower .roulette-tower-info-controls span #roulette-submit {
+    background-color: rgb(78, 136, 78);
+}
+
+#roulette .roulette-tower .roulette-tower-info-controls span #roulette-giveUp {
+    background-color: rgb(177, 56, 56);
+}
+
+
+#roulette #roulette-towers h2 {
+    width: 100%;
+    text-align: center;
+    font-size: 1.5vw;
 }

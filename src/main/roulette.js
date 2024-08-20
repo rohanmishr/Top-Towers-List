@@ -5,11 +5,13 @@ const rand = (min, max) => {
 class Roulette {
     static round = -1;
     static rouletteTowers = [];
+    static prev = [];
 
     static init = () => {
         // reset
         this.stop();
         this.round = -1;
+        this.prev = [];
         $("#roulette-start")[0].classList.remove("failed");
         let roulettePool = [];
 
@@ -20,9 +22,15 @@ class Roulette {
             roulettePool = roulettePool.concat(towers);
         }
 
+        if ($("#opt-legacy")[0].checked) {
+            roulettePool = roulettePool.concat(legacy);
+        }
+
         for (let i = 0; i < 10; i++) {
             // get 10 random towers
-            this.rouletteTowers.push(roulettePool[rand(0, roulettePool.length - 1)]);
+            let t = roulettePool[rand(0, roulettePool.length - 1)];
+            this.rouletteTowers.push(t);
+            roulettePool.splice(roulettePool.indexOf(t), 1);
         }
 
         this.next();
@@ -31,11 +39,17 @@ class Roulette {
 
     static next = () => {
         this.round++;
+        $(".roulette-tower").toArray().forEach((el) => {
+            el.classList.remove("current");
+        })
+        $(".roulette-tower-info-controls").toArray().forEach((el) => {
+            el.remove();
+        })
         $("#roulette-towers")[0].innerHTML += this.template(this.rouletteTowers[this.round]);
     }
 
     static submit = () => {
-        if ( $("#input" + this.round)[0].value >= this.round) {
+        if ( $("#input" + this.round)[0].value > this.round) {
             try {
                 this.next()
             } catch {
@@ -55,6 +69,7 @@ class Roulette {
     }
 
     static fail = () => {
+        $(".current").toArray().forEach((c) => {c.classList.remove("current")});
         $("#roulette-start")[0].classList.add("failed");
         $("#roulette-towers")[0].innerHTML += `
         <h2>Score: ${this.round+1}</h2>
@@ -64,7 +79,7 @@ class Roulette {
     static template = (tower) => {
         console.log(tower);
         return `
-        <div class="roulette-tower">
+        <div class="roulette-tower current">
             <iframe id="video" 
                 src="${tower.videoLink}" 
                 title="YouTube video player" 
@@ -87,8 +102,8 @@ class Roulette {
                 <div class="roulette-tower-info-controls">  
                     <input id="input${this.round}" placeholder="At least floor ${this.round+1}">
                     <span>
-                        <button onClick="Roulette.submit()">Submit</button>
-                        <button>Give up</button>
+                        <button id="roulette-submit" onClick="Roulette.submit()">Submit</button>
+                        <button id="roulette-giveUp" onClick="Roulette.fail()">Give up</button>
                     </span>
                 </div>
             </div>

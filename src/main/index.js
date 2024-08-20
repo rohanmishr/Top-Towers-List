@@ -1,5 +1,6 @@
 let data;
 let towers = [];
+let legacy = [];
 let inview = 0;
 
 // utils
@@ -7,6 +8,14 @@ const getTowerByName = (name) => {
     for (let i = 0; i < towers.length; i++) {
         if (towers[i].name == name) {
             return towers[i]
+        }
+    }
+}
+
+const getLegacyTowerByName = (name) => {
+    for (let i = 0; i < legacy.length; i++) {
+        if (legacy[i].name == name) {
+            return legacy[i]
         }
     }
 }
@@ -38,9 +47,9 @@ class Enums {
 }
 
 class Templates {
-    static ListTower(rank, tower) {
+    static ListTower(rank, tower, mode) {
         return `
-        <div onclick="viewTower(&quot;${tower.name}&quot;)" class="listTower ${rank == 1 ? 'gold' : ''} ${rank == 2 ? 'silver' : ''} ${rank == 3 ? 'bronze' : ''}">
+        <div onclick="viewTower(&quot;${tower.name}&quot;, '${mode}')" class="listTower ${rank == 1 ? 'gold' : ''} ${rank == 2 ? 'silver' : ''} ${rank == 3 ? 'bronze' : ''}">
             <h2 class="listTower-rank">#${rank}</h2>
             <h2 class="listTower-tower">${tower.name}</h2>
         </div>
@@ -89,22 +98,51 @@ $('#file-loader').load("src/data/list.csv", () => {
     }
 
     for (let i = 0; i < towers.length; i++) {
-        $("#list")[0].innerHTML += Templates.ListTower(i + 1, towers[i]);
+        $("#list")[0].innerHTML += Templates.ListTower(i + 1, towers[i], "main");
     }
 
-    viewTower(towers[0].name); // default view to top 1
+    viewTower(towers[0].name, "main"); // default view to top 1
     console.log(data);
 });
 
-const viewTower = (tower) => {
-    console.log(tower);
-    inview = getTowerByName(tower);
+$('#file-loader').load("src/data/legacy.csv", () => {
+    data = Papa.parse($('#file-loader')[0].innerHTML);
+    console.log(data);
 
-    $("#viewer-towerName")[0].innerHTML = inview.name;
-    $("#viewer-creators")[0].innerHTML = inview.creators;
-    $("#viewer-verifier")[0].innerHTML = inview.verifier;
-    $("#viewer-location")[0].innerHTML = inview.location;
-    $("#video")[0].src = inview.videoLink;
+    for (let i = 1; i < data.data.length; i++) {
+        legacy.push(new Tower(
+            data.data[i][0],
+            data.data[i][1],
+            data.data[i][2],
+            data.data[i][3],
+            data.data[i][4],
+            data.data[i][5],
+            data.data[i][6],
+            data.data[i][7],
+            data.data[i][8],
+            data.data[i][9],
+            i+100
+        ));
+    }
+
+    for (let i = 0; i < legacy.length; i++) {
+        $("#list-legacy")[0].innerHTML += Templates.ListTower(legacy[i].rank, legacy[i], "legacy");
+    }
+
+    viewTower(legacy[0].name, "legacy"); // default view to top 1
+});
+
+const viewTower = (tower, mode) => {
+    console.log(tower);
+    let inview = 0;
+    if (mode == "main") { inview = getTowerByName(tower) }
+    else if (mode == "legacy") { inview = getLegacyTowerByName(tower) }
+
+    $(`#viewer-${mode == "main" ? "" : "legacy-"}towerName`)[0].innerHTML = inview.name;
+    $(`#viewer-${mode == "main" ? "" : "legacy-"}creators`)[0].innerHTML = inview.creators;
+    $(`#viewer-${mode == "main" ? "" : "legacy-"}verifier`)[0].innerHTML = inview.verifier;
+    $(`#viewer-${mode == "main" ? "" : "legacy-"}location`)[0].innerHTML = inview.location;
+    $(`#video${mode == "main" ? "" : "-legacy"}`)[0].src = inview.videoLink;
 }
 
 const page = (id) => {
@@ -119,6 +157,10 @@ const page = (id) => {
     })
 
     $("#header-" + id)[0].classList.add("active");
+    
+    window.scrollTo(0, 0);
 }
+
+page('main');
 
 
